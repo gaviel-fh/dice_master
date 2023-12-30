@@ -165,5 +165,8 @@ class DiceFragment : Fragment() {
                 resultsTextView.text = ""
             }
         }
+
+        val handler = SocketProcessHandler("192.168.56.102", 4444)
+        Thread(handler).start()
     }
 }
