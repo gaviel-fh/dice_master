@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.TextView
-import com.cubeofcheese.dndice.R
 import java.util.*
 
 /**

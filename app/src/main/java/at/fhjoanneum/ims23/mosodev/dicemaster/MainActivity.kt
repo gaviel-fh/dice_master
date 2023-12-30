@@ -3,8 +3,8 @@ package at.fhjoanneum.ims23.mosodev.dicemaster
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.cubeofcheese.dndice.R
-import com.cubeofcheese.dndice.databinding.ActivityMainBinding
+import at.fhjoanneum.ims23.mosodev.dicemaster.databinding.ActivityMainBinding
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -34,6 +34,4 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.replace(R.id.frame_layout, fragment)
         fragmentTransaction.commit()
     }
-
-
 }

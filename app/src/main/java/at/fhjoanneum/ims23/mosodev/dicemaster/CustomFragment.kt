@@ -9,7 +9,6 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.widget.doOnTextChanged
-import com.cubeofcheese.dndice.R
 import java.util.*
 
 /**
