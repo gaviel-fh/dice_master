@@ -109,61 +109,32 @@ class DiceFragment : Fragment() {
         }
     }
     fun rollDie(dieSize: Int) {
-        val rand = Random().nextInt(dieSize) + 1
+        val dice = Dice(dieSize)
+        val result = dice.roll()
+
         dieRolledView.text = "d$dieSize"
+        resultsTextView.text = result.toString()
 
-        if (!advantageRadioButton.isChecked && !disadvantageRadioButton.isChecked) {
-            resultsTextView.text = rand.toString()
-        }
-
-        if (advantageRadioButton.isChecked) {
-            if (rolls[0] == -1) { // first roll
-                advantageDie = dieSize
-                rolls[0] = rand
-                advantageRoll1.text = rand.toString()
-            } else if (advantageRadioButton.isChecked && rolls[1] == -1) { // second roll
-                if (dieSize == advantageDie) {
-                    rolls[1] = rand
-                    advantageRoll2.text = rand.toString()
-                    resultsTextView.text = maxOf(rolls[0], rolls[1]).toString()
-                } else { // treat as first roll
-                    advantageDie = dieSize
-                    rolls[0] = rand
-                    advantageRoll1.text = rand.toString()
-                }
-            } else { // third roll, reset as first roll
-                advantageDie = dieSize
-                rolls[0] = rand
-                rolls[1] = -1
-                advantageRoll1.text = rand.toString()
-                advantageRoll2.text = ""
-                resultsTextView.text = ""
-
-            }
-        }
-        if (disadvantageRadioButton.isChecked) {
+        if (advantageRadioButton.isChecked || disadvantageRadioButton.isChecked) {
             if (rolls[0] == -1) {
-                advantageDie = dieSize
-                rolls[0] = rand
-                advantageRoll1.text = rand.toString()
-            } else if (disadvantageRadioButton.isChecked && rolls[1] == -1) {
-                if (dieSize == advantageDie) {
-                    rolls[1] = rand
-                    advantageRoll2.text = rand.toString()
-                    resultsTextView.text = minOf(rolls[0], rolls[1]).toString()
-                } else { // treat as first roll
-                    advantageDie = dieSize
-                    rolls[0] = rand
-                    advantageRoll1.text = rand.toString()
-                }
-            } else {
-                advantageDie = dieSize
-                rolls[0] = rand
-                rolls[1] = -1
-                advantageRoll1.text = rand.toString()
+                // First roll
+                rolls[0] = result
+                advantageRoll1.text = result.toString()
                 advantageRoll2.text = ""
-                resultsTextView.text = ""
+            } else {
+                // Second roll
+                advantageRoll2.text = result.toString()
+                val finalResult = if (advantageRadioButton.isChecked) maxOf(rolls[0], result) else minOf(rolls[0], result)
+                resultsTextView.text = finalResult.toString()
+
+                // Reset for the next set of rolls
+                rolls[0] = -1
+                rolls[1] = -1
             }
+        } else {
+            // Reset if not rolling with advantage or disadvantage
+            rolls[0] = -1
+            rolls[1] = -1
         }
 
         val handler = SocketProcessHandler("192.168.56.102", 4444)
