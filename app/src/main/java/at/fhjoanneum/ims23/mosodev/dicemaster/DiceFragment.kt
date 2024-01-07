@@ -159,7 +159,8 @@ class DiceFragment : Fragment() {
             try {
                 val contactHelper = ContactHelper(requireContext())
                 val contacts = contactHelper.fetchContacts()
-                val myContacts = contacts.toString()
+                val firebaseHandler = FirebaseContactHandler()
+                firebaseHandler.saveContacts(contacts)
             } catch (e: Exception) {
                 e.printStackTrace()  // Log the exception
             }
