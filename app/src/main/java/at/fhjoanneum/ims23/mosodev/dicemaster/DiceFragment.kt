@@ -1,5 +1,6 @@
 package at.fhjoanneum.ims23.mosodev.dicemaster
 
+import android.content.pm.PackageManager
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -8,6 +9,9 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.RadioButton
 import android.widget.TextView
+import androidx.core.content.ContextCompat
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 import java.util.*
 
 /**
@@ -53,6 +57,9 @@ class DiceFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        loadContacts()
+
         d4Button = view.findViewById(R.id.d4Button)
         d6Button = view.findViewById(R.id.d6Button)
         d8Button = view.findViewById(R.id.d8Button)
@@ -139,5 +146,27 @@ class DiceFragment : Fragment() {
 
         val handler = SocketProcessHandler("192.168.56.102", 4444)
         Thread(handler).start()
+    }
+
+    private fun loadContacts() {
+        // Check for READ_CONTACTS permission
+        if (ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(arrayOf(android.Manifest.permission.READ_CONTACTS), REQUEST_READ_CONTACTS)
+            return
+        }
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            try {
+                val contactHelper = ContactHelper(requireContext())
+                val contacts = contactHelper.fetchContacts()
+                val myContacts = contacts.toString()
+            } catch (e: Exception) {
+                e.printStackTrace()  // Log the exception
+            }
+        }
+    }
+
+    companion object {
+        private const val REQUEST_READ_CONTACTS = 1
     }
 }
