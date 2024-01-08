@@ -15,6 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.DiceMaster"
         tools:targetApi="31">
+        <service android:name=".DiceService" />
         <activity
             android:name="at.fhjoanneum.ims23.mosodev.dicemaster.MainActivity"
             android:exported="true">

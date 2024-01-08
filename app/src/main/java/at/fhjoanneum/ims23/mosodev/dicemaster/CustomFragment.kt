@@ -1,5 +1,6 @@
 package at.fhjoanneum.ims23.mosodev.dicemaster
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -42,6 +43,8 @@ class CustomFragment : Fragment() {
         dieRolledView = view.findViewById(R.id.dieRolledView)
         dieSizeInput = view.findViewById(R.id.dieSizeInput)
         customRollButton = view.findViewById(R.id.rollButton)
+
+        activity?.startService(Intent(activity, DiceService::class.java))
 
         dieSizeInput.doOnTextChanged { text, start, before, count ->
             customRollButton.isEnabled = !text.isNullOrBlank() // disabled when text is blank
